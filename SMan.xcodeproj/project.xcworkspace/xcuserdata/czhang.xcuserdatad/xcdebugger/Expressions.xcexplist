@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "mutex">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "hazy::sman::ObjStore&lt;double, (hazy::sman::StorageType)65536&gt;::get(long long, double&amp;):ObjectStore_JHASH.h">
+         <PersistentStrings>
+            <PersistentString
+               value = "cls">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
