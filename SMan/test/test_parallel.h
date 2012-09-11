@@ -50,11 +50,11 @@ void * task_read(void * _task){
     //  std::cout << i << " " << (3.14*i) << " " << value << std::endl;
     //}
     
-    //if(3.14*i != value){
-    //  std::cout << i << " " << (3.14*i) << " " << value << std::endl;
-    //}
+    if(3.14*i != value){
+      std::cout << i << " " << (3.14*i) << " " << value << std::endl;
+    }
     
-    assert(3.14*i == value);
+//    assert(3.14*i == value);
     value = 5;
     
     //task->os->apply(i, func_pp2);

@@ -179,12 +179,12 @@ int main(int argc, const char * argv[])
 
   //hazy::sman::ObjStore<int, hazy::sman::STORAGE_MM> objstore;
   
-  int scale = 100000;
+  int scale = 1000;
   int nbuffer = 100;
   
   //test_ObjStore_MM_NAIVE(scale);
   
-  //test_ObjStore<hazy::sman::STORAGE_JHASH>(scale);
+  //test_ObjStore<hazy::sman::STORAGE_MM>(scale);
 
   /*
   hazy::sman::ObjStore<double, hazy::sman::STORAGE_JHASH> objstore;
@@ -197,11 +197,17 @@ int main(int argc, const char * argv[])
   objstore.set(1, 4.14);
   */
   
-  
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 1);
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 2);
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 3);
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 4);
+  
+  test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_ACCU>(scale, nbuffer, 8);
+  
+  //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 1);
+  //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 2);
+  //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 3);
+  //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 4);
   test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 8);
   
   
