@@ -13,6 +13,7 @@
 #include "objstore/ObjectStore_MM.h"
 #include "objstore/ObjectStore_FILE.h"
 #include "objstore/ObjectStore_JHASH.h"
+#include "objstore/ObjectStore_HBASE.h"
 
 #include "objstore/BufferedObjStore.h"
 
@@ -184,7 +185,7 @@ int main(int argc, const char * argv[])
   
   //test_ObjStore_MM_NAIVE(scale);
   
-  //test_ObjStore<hazy::sman::STORAGE_MM>(scale);
+  //test_ObjStore<hazy::sman::STORAGE_HBASE>(scale);
 
   /*
   hazy::sman::ObjStore<double, hazy::sman::STORAGE_JHASH> objstore;
@@ -202,13 +203,20 @@ int main(int argc, const char * argv[])
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 3);
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 4);
   
-  test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_ACCU>(scale, nbuffer, 8);
+  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 8);
+  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 4);
+  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 3);
+  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 2);
+  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 1);
+  
+  
+  
   
   //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 1);
   //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 2);
   //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 3);
   //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 4);
-  test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 8);
+  //test_parallel_read<hazy::sman::STORAGE_JHASH, hazy::sman::JAVAHASH_MM>(scale, nbuffer, 8);
   
   
   /*

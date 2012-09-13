@@ -33,15 +33,12 @@ public class AccumuloConnector extends AnyConnector{
 		String sinstance = arr_it[0];
 		table = arr_it[1];
 		
-		System.out.println("~~~~~~" + arr_it[0] + "~~" + arr_it[1]);
-		
 		byte[] pass = password.getBytes();
 		
 		ZooKeeperInstance instance = new ZooKeeperInstance(sinstance, db_url);
 		
 	    try {
 	    	
-	    	//long memBuf = 1000000L; // bytes to store before sending a batch
 	    	long memBuf = 1L; // bytes to store before sending a batch
 			long timeout = 1000L; // milliseconds to wait before sending
 			int numThreads = 10;
@@ -53,11 +50,8 @@ public class AccumuloConnector extends AnyConnector{
 	    	}
 	    	
 	    	scan = connector.createScanner(table, Constants.NO_AUTHS);
-	    	//writer = connector.createBatchWriter(table, memBuf, timeout, numThreads);
 	    	mtbw = connector.createMultiTableBatchWriter(200000l, 300, 4);
 	    	writer = mtbw.getBatchWriter(table);
-	    	
-			
 	    	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,17 +64,17 @@ public class AccumuloConnector extends AnyConnector{
 		Iterator<Entry<Key,Value>> iter;
 		
 		synchronized(this){
+			
 			Text t = new Text(""+key);
 			scan.setRange(new Range(t, t));
 			iter = scan.iterator();
 		}
 		    
 	    while (iter.hasNext()) {
+	    	
 	      Entry<Key,Value> e = iter.next();
 	      Text colf = e.getKey().getColumnFamily();
 	      Text colq = e.getKey().getColumnQualifier();
-	      //System.out.print("row: " + e.getKey().getRow() + ", colf: " + colf + ", colq: " + colq);
-	      //System.out.println(", value: " + e.getValue().toString());
 	      return e.getValue().get();
 	    }
 		
@@ -88,24 +82,6 @@ public class AccumuloConnector extends AnyConnector{
 	}
 	
 	public void set(int key, byte[] value) {
-	
-		/*
-		try{
-			Text colf = new Text("colfam");
-		    System.out.println("writing ...");
-		    for (int i = 0; i < 10000; i++) {
-		      Mutation m = new Mutation(new Text(String.format("row_%d", i)));
-		      for (int j = 0; j < 5; j++) {
-		        m.put(colf, new Text(String.format("colqual_%d", j)), new Value((String.format("value_%d_%d", i, j)).getBytes()));
-		      }
-		      writer.addMutation(m);
-		      if (i % 100 == 0)
-		        System.out.println(i);
-		    }
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		*/
 		
 		try{
 			Mutation m = new Mutation(new Text(""+ key));
@@ -123,6 +99,7 @@ public class AccumuloConnector extends AnyConnector{
 	}
 	
 	public void load(int key, byte[] value) {
+		
 		try{
 			Mutation m = new Mutation(new Text(""+ key));
 			
@@ -138,6 +115,7 @@ public class AccumuloConnector extends AnyConnector{
 	}
 	
 	public static void main(String[] args) throws AccumuloException, AccumuloSecurityException, TableNotFoundException {
+		
 		if (args.length < 5 || args.length > 7) {
 			System.out.println("bin/accumulo accumulo.examples.helloworld.ReadData <instance name> <zoo keepers> <username> <password> <tablename> [startkey [endkey]]");
 		    System.exit(1);

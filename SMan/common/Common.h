@@ -40,10 +40,11 @@ namespace hazy {
     };
     
     enum StorageType {
-      STORAGE_MM   = 0x00000001,
-      STORAGE_MMAP = 0x00000010,
-      STORAGE_FILE = 0x00000100,
-      STORAGE_JHASH  = 0x00010000
+      STORAGE_MM    = 0x00000001,
+      STORAGE_MMAP  = 0x00000010,
+      STORAGE_FILE  = 0x00000100,
+      STORAGE_JHASH = 0x00010000,
+      STORAGE_HBASE = 0x00100000
     };
 
     enum BufferType {

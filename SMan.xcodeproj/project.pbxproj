@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		E103630815FA36EA0099BD89 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E103630715FA36EA0099BD89 /* main.cpp */; };
 		E103630A15FA36EA0099BD89 /* SMan.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E103630915FA36EA0099BD89 /* SMan.1 */; };
+		E1554A1316014438000227CD /* Hbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1554A0C16014438000227CD /* Hbase.cpp */; };
+		E1554A1416014438000227CD /* hbase_constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1554A0E16014438000227CD /* hbase_constants.cpp */; };
+		E1554A1516014438000227CD /* Hbase_server.skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1554A1016014438000227CD /* Hbase_server.skeleton.cpp */; };
+		E1554A1616014438000227CD /* hbase_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1554A1116014438000227CD /* hbase_types.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +39,14 @@
 		E103631715FA5E500099BD89 /* ObjectStore_FILE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectStore_FILE.h; sourceTree = "<group>"; };
 		E103631915FA77FF0099BD89 /* BufferedObjStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BufferedObjStore.h; sourceTree = "<group>"; };
 		E147FC6F15FD07CC00BB1080 /* test_parallel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_parallel.h; sourceTree = "<group>"; };
+		E1554A09160142F8000227CD /* ObjectStore_HBASE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectStore_HBASE.h; sourceTree = "<group>"; };
+		E1554A0C16014438000227CD /* Hbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hbase.cpp; sourceTree = "<group>"; };
+		E1554A0D16014438000227CD /* Hbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hbase.h; sourceTree = "<group>"; };
+		E1554A0E16014438000227CD /* hbase_constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hbase_constants.cpp; sourceTree = "<group>"; };
+		E1554A0F16014438000227CD /* hbase_constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hbase_constants.h; sourceTree = "<group>"; };
+		E1554A1016014438000227CD /* Hbase_server.skeleton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Hbase_server.skeleton.cpp; sourceTree = "<group>"; };
+		E1554A1116014438000227CD /* hbase_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hbase_types.cpp; sourceTree = "<group>"; };
+		E1554A1216014438000227CD /* hbase_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hbase_types.h; sourceTree = "<group>"; };
 		E16EA39F15FE30FD003E67BB /* ObjectStore_JHASH.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectStore_JHASH.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +80,7 @@
 		E103630615FA36EA0099BD89 /* SMan */ = {
 			isa = PBXGroup;
 			children = (
+				E1554A0B16014438000227CD /* gen-cpp */,
 				E147FC6D15FD07C000BB1080 /* test */,
 				E103631815FA77DB0099BD89 /* buffer */,
 				E103631315FA3B330099BD89 /* common */,
@@ -85,6 +98,7 @@
 				E103631515FA52E60099BD89 /* ObjectStore_MM.h */,
 				E103631715FA5E500099BD89 /* ObjectStore_FILE.h */,
 				E16EA39F15FE30FD003E67BB /* ObjectStore_JHASH.h */,
+				E1554A09160142F8000227CD /* ObjectStore_HBASE.h */,
 				E103631915FA77FF0099BD89 /* BufferedObjStore.h */,
 			);
 			path = objstore;
@@ -112,6 +126,20 @@
 				E147FC6F15FD07CC00BB1080 /* test_parallel.h */,
 			);
 			path = test;
+			sourceTree = "<group>";
+		};
+		E1554A0B16014438000227CD /* gen-cpp */ = {
+			isa = PBXGroup;
+			children = (
+				E1554A0C16014438000227CD /* Hbase.cpp */,
+				E1554A0D16014438000227CD /* Hbase.h */,
+				E1554A0E16014438000227CD /* hbase_constants.cpp */,
+				E1554A0F16014438000227CD /* hbase_constants.h */,
+				E1554A1016014438000227CD /* Hbase_server.skeleton.cpp */,
+				E1554A1116014438000227CD /* hbase_types.cpp */,
+				E1554A1216014438000227CD /* hbase_types.h */,
+			);
+			path = "gen-cpp";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,6 +194,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E103630815FA36EA0099BD89 /* main.cpp in Sources */,
+				E1554A1316014438000227CD /* Hbase.cpp in Sources */,
+				E1554A1416014438000227CD /* hbase_constants.cpp in Sources */,
+				E1554A1516014438000227CD /* Hbase_server.skeleton.cpp in Sources */,
+				E1554A1616014438000227CD /* hbase_types.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,10 +257,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/System/Library/Frameworks/JavaVM.framework/Headers/**";
+				HEADER_SEARCH_PATHS = (
+					"/System/Library/Frameworks/JavaVM.framework/Headers/**",
+					"/Users/czhang/Desktop/Software/thrift3/include/thrift/**",
+					/Users/czhang/Desktop/Codes/mia/dep/boost,
+				);
+				LIBRARY_SEARCH_PATHS = "/Users/czhang/Desktop/Software/thrift3/lib/**";
 				OTHER_LDFLAGS = (
 					"-framework",
 					JavaVM,
+					"-lthrift",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -238,10 +276,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
-				HEADER_SEARCH_PATHS = "/System/Library/Frameworks/JavaVM.framework/Headers/**";
+				HEADER_SEARCH_PATHS = (
+					"/System/Library/Frameworks/JavaVM.framework/Headers/**",
+					"/Users/czhang/Desktop/Software/thrift3/include/thrift/**",
+					/Users/czhang/Desktop/Codes/mia/dep/boost,
+				);
+				LIBRARY_SEARCH_PATHS = "/Users/czhang/Desktop/Software/thrift3/lib/**";
 				OTHER_LDFLAGS = (
 					"-framework",
 					JavaVM,
+					"-lthrift",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
