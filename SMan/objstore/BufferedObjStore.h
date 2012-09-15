@@ -142,6 +142,91 @@ namespace hazy{
         
         return STATUS_SUCCESS;
       }
+      
+      template<class CONTENT_TYPE>
+      StatusType set_meta(int64_t key, int64_t offset, CONTENT_TYPE const & content){
+        nget ++;
+        
+        pthread_mutex_lock(pagelocks[key]);
+        
+        size_t buf = obj2buffer.at(key);
+        if (buf != -1) {
+          
+          //std::cout << "~";
+          
+          hitget ++;
+          buffers[buf].contents[offset] = content;
+        }else{
+          
+          //std::cout << "*" << key << std::endl;
+          
+          size_t buf = getfree2();
+          
+          //std::cout << "~" << key << std::endl;
+          
+          if(buf != -1){
+            
+            os.get(key, buffers[buf]);
+            obj2buffer[key] = buf;
+            buffer2obj[buf] = key;
+            buffers[buf].contents[offset] = content;
+            
+          }else{
+            //std::cout << ":";
+            VALUE value;
+            os.get(key, value);
+            value.contents[offset] = content;
+            os.set(key, value);
+          }
+        }
+        
+        pthread_mutex_unlock(pagelocks[key]);
+        
+        return STATUS_SUCCESS;
+        
+      }
+      
+      template<class CONTENT_TYPE>
+      StatusType get_meta(int64_t key, int64_t offset, CONTENT_TYPE & content){
+        nget ++;
+        
+        pthread_mutex_lock(pagelocks[key]);
+        
+        size_t buf = obj2buffer.at(key);
+        if (buf != -1) {
+          
+          //std::cout << "~";
+          
+          hitget ++;
+          content = buffers[buf].contents[offset];
+        }else{
+          
+          //std::cout << "*" << key << std::endl;
+          
+          size_t buf = getfree2();
+          
+          //std::cout << "~" << key << std::endl;
+          
+          if(buf != -1){
+            
+            os.get(key, buffers[buf]);
+            obj2buffer[key] = buf;
+            buffer2obj[buf] = key;
+            content = buffers[buf].contents[offset];
+            
+          }else{
+            //std::cout << ":";
+            VALUE value;
+            os.get(key, value);
+            content = value.contents[offset];
+          }
+        }
+        
+        pthread_mutex_unlock(pagelocks[key]);
+        
+        return STATUS_SUCCESS;
+
+      }
 
       StatusType get(int64_t key, VALUE & value){
         

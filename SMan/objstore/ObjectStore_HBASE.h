@@ -1,13 +1,15 @@
 //
 //  ObjectStore_HBASE.h
-//  SMan
+//  elly
 //
 //  Created by Ce Zhang on 9/12/12.
-//  Copyright (c) 2012 HazyResearch. All rights reserved.
+//  Copyright (c) 2012 University of Wisconsin-Madison. All rights reserved.
 //
 
 #ifndef SMan_ObjectStore_HBASE_h
 #define SMan_ObjectStore_HBASE_h
+
+
 
 #include <stdio.h>
 #include <unistd.h>
@@ -48,11 +50,17 @@ namespace hazy{
       
     public:
       
+      static int hbaseid;
+      
       ~ObjStore(){
         
       }
       
-      ObjStore(){
+      ObjStore() {
+        
+        hbaseid ++;
+        char tablename[1000];
+        sprintf(tablename, "elly_testtable_%d", hbaseid);
         
         std::cout << "INFO: " << "Use specification STORAGE_HBASE." << std::endl;
         
@@ -63,7 +71,7 @@ namespace hazy{
         mutex = new pthread_mutex_t;
         pthread_mutex_init(mutex, NULL);
         
-        socket = boost::shared_ptr<apache::thrift::transport::TTransport>(new apache::thrift::transport::TSocket("0.0.0.0", 9090));
+        socket = boost::shared_ptr<apache::thrift::transport::TTransport>(new apache::thrift::transport::TSocket("hazy-01.chtc.wisc.edu", 9090));
         transport = boost::shared_ptr<apache::thrift::transport::TTransport>(new apache::thrift::transport::TBufferedTransport(socket));
         protocol = boost::shared_ptr<apache::thrift::protocol::TProtocol>(new apache::thrift::protocol::TBinaryProtocol(transport));
         
@@ -71,7 +79,7 @@ namespace hazy{
         
         transport->open();
         
-        t = std::string("demo_table4");
+        t = std::string(tablename);
         std::vector<apache::hadoop::hbase::thrift::ColumnDescriptor> columns;
         columns.push_back(apache::hadoop::hbase::thrift::ColumnDescriptor());
         columns.back().name = "key:";
@@ -83,11 +91,11 @@ namespace hazy{
         } catch (const apache::hadoop::hbase::thrift::AlreadyExists &ae) {
           std::cerr << "WARN: " << ae.message << std::endl;
         }
-               
+        
       }
       
       StatusType get(int64_t key, VALUE & value){
-                
+        
         VALUE bbb = value;
         
         int64_t k = key;
@@ -100,35 +108,36 @@ namespace hazy{
         
         while (true) {
           std::vector<apache::hadoop::hbase::thrift::TRowResult> value;
-            
+          
           pthread_mutex_lock(mutex);
           client->scannerGet(value, scanner);
           pthread_mutex_unlock(mutex);
-            
+          
           if (value.size() == 0)
             break;
           for (size_t i = 0; i < value.size(); i++) {
-                            
+            
             for (std::map<std::string, apache::hadoop::hbase::thrift::TCell>::const_iterator it = value[i].columns.begin();
-                   it != value[i].columns.end(); ++it) {
-                
-              it->second.value.copy((char*) &bbb, sizeof(VALUE));
-                                
-              break;
-                
-            }
+                 it != value[i].columns.end(); ++it) {
               
+              it->second.value.copy((char*) &bbb, sizeof(VALUE));
+              
+              break;
+              
+            }
+            
           }
           break;
         }
+        
         value = bbb;
-          
+        
         
         return STATUS_SUCCESS;
       }
       
       StatusType set(int64_t key, const VALUE & value){
-                
+        
         std::vector<apache::hadoop::hbase::thrift::Mutation> mutations;
         mutations.push_back(apache::hadoop::hbase::thrift::Mutation());
         mutations.back().column = "key:key";
@@ -169,7 +178,7 @@ namespace hazy{
       }
       
       StatusType apply(int64_t key, void (*func)(VALUE &)){
-                
+        
         VALUE v;
         
         this->get(key, v);
@@ -177,15 +186,20 @@ namespace hazy{
         func(v);
         
         this->set(key, v);
-
+        
         return STATUS_SUCCESS;
       }
       
     };
     
+    template<class VALUE, PropertyType PROPERTY>
+    int ObjStore<VALUE, STORAGE_HBASE, PROPERTY>::hbaseid = 0;
+    
     
   }
 }
+
+
 
 
 #endif

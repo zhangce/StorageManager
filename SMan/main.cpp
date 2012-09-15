@@ -17,6 +17,8 @@
 
 #include "objstore/BufferedObjStore.h"
 
+#include "kvstore/PagedBufferedObjectStore.h"
+
 inline void func_pp(double & value){
   ++value;
 }
@@ -173,6 +175,65 @@ void test_BufferedObjStore(int nkey = 100000, int nbuffer = 10){
             << "flush: " << os.nflush << std::endl << std::endl;
 }
 
+template<hazy::sman::StorageType STORAGE>
+void test_PagedBufferedObjStore(int nkey = 100000, int nbuffer = 10){
+  
+  hazy::utils::Timer t;
+  double load, set, get, apply;
+  
+  hazy::sman::PagedBufferedObjStore<double, STORAGE, hazy::sman::PROPERTY_NIL> os(nbuffer);
+  
+  t.restart();
+  for (int i=0;i<nkey; ++i){
+    os.load(i, i);
+  }
+  load = t.elapsed();
+  std::cout << "loaded" << std::endl;
+  
+  t.restart();
+  for (int i=0;i<nkey; ++i){
+    os.set(i, i * 3.14);
+  }
+  set = t.elapsed();
+  std::cout << "set" << std::endl;
+  
+  t.restart();
+  double value;
+  for (int i=nkey-1;i>=0; --i){
+    os.get(i, value);
+    //if(3.14*i != value){
+    //  std::cout << i << " " << (3.14*i) << " " << value << std::endl;
+    //}
+    assert(3.14*i == value);
+    value = 5;
+    os.get(i, value);
+    assert(3.14*i == value);
+  }
+  get = t.elapsed();
+  std::cout << "get" << std::endl;
+  
+  t.restart();
+  for (int i=nkey-1;i>=0; --i){
+    os.apply(i, func_pp);
+  }
+  apply = t.elapsed();
+  
+  for (int i=nkey-1;i>=0; --i){
+    os.get(i, value);
+    assert(3.14*i + 1 == value);
+  }
+  
+  std::cout << "TEST: " << "PagedBufferedObjStore_" << STORAGE << " @ " << nkey << " KEYS uses " << std::endl
+  << load << ",\t" << set << ",\t" << get << ",\t" << apply << " \tseconds."
+  << std::endl ;
+  
+  //std::cout << "TEST: " << "get: " << os.hitget << "/" << os.nget << ", "
+  //<< "set: " << os.hitset << "/" << os.nset << ", "
+  //<< "load: " << os.hitload << "/" << os.nload << ", "
+  //<< "flush: " << os.nflush << std::endl << std::endl;
+}
+
+
 #include "test/test_parallel.h"
 
 int main(int argc, const char * argv[])
@@ -187,6 +248,9 @@ int main(int argc, const char * argv[])
   
   //test_ObjStore<hazy::sman::STORAGE_HBASE>(scale);
 
+  test_ObjStore<hazy::sman::STORAGE_MM>(scale);
+  test_PagedBufferedObjStore<hazy::sman::STORAGE_MM>(scale);
+  
   /*
   hazy::sman::ObjStore<double, hazy::sman::STORAGE_JHASH> objstore;
   double value;
@@ -203,11 +267,11 @@ int main(int argc, const char * argv[])
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 3);
   //test_parallel_read<hazy::sman::STORAGE_JHASH>(scale, nbuffer, 4);
   
-  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 8);
-  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 4);
-  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 3);
-  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 2);
-  test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 1);
+  //test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 8);
+  //test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 4);
+  //test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 3);
+  //test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 2);
+  //test_parallel_read<hazy::sman::STORAGE_HBASE, hazy::sman::PROPERTY_NIL>(scale, nbuffer, 1);
   
   
   

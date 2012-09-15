@@ -48,6 +48,7 @@
 		E1554A1116014438000227CD /* hbase_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hbase_types.cpp; sourceTree = "<group>"; };
 		E1554A1216014438000227CD /* hbase_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hbase_types.h; sourceTree = "<group>"; };
 		E16EA39F15FE30FD003E67BB /* ObjectStore_JHASH.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectStore_JHASH.h; sourceTree = "<group>"; };
+		E190625F1603B4FF0093066A /* PagedBufferedObjectStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagedBufferedObjectStore.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +83,8 @@
 			children = (
 				E1554A0B16014438000227CD /* gen-cpp */,
 				E147FC6D15FD07C000BB1080 /* test */,
-				E103631815FA77DB0099BD89 /* buffer */,
 				E103631315FA3B330099BD89 /* common */,
+				E190625D1603B4640093066A /* kvstore */,
 				E103631015FA38EC0099BD89 /* objstore */,
 				E103630715FA36EA0099BD89 /* main.cpp */,
 				E103630915FA36EA0099BD89 /* SMan.1 */,
@@ -113,13 +114,6 @@
 			path = common;
 			sourceTree = "<group>";
 		};
-		E103631815FA77DB0099BD89 /* buffer */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = buffer;
-			sourceTree = "<group>";
-		};
 		E147FC6D15FD07C000BB1080 /* test */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +134,14 @@
 				E1554A1216014438000227CD /* hbase_types.h */,
 			);
 			path = "gen-cpp";
+			sourceTree = "<group>";
+		};
+		E190625D1603B4640093066A /* kvstore */ = {
+			isa = PBXGroup;
+			children = (
+				E190625F1603B4FF0093066A /* PagedBufferedObjectStore.h */,
+			);
+			path = kvstore;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -36,7 +36,7 @@ namespace hazy {
     enum PropertyType {
       PROPERTY_NIL = 0x00000000,
       JAVAHASH_MM  = 0x00000001,
-      JAVAHASH_ACCU= 0x00000010
+      JAVAHASH_ACCU= 0x00000010,
     };
     
     enum StorageType {
